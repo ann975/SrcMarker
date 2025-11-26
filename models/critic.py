@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 
+# loss approximation
 class DecodeLossApproximator(nn.Module):
     def __init__(
         self,

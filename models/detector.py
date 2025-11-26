@@ -3,7 +3,8 @@ import torch.nn as nn
 from .gru_encoder import GRUEncoder
 from .transformer_encoder import TransformerEncoderExtractor
 
-
+# embed tokens and pass through MLP
+# output single logit per sample
 class MLPDetector(nn.Module):
     def __init__(self, vocab_size: int, embedding_size: int, hidden_size: int):
         super().__init__()
@@ -22,7 +23,10 @@ class MLPDetector(nn.Module):
         x = self.out(x)
         return x
 
-
+# uses GRU encoder (recurrent network) instead of simple MLP
+# bidirectional 
+# linear layer maps to logit
+# outputs scalar logit for each sequence
 class GRUWMDetector(nn.Module):
     def __init__(
         self, vocab_size: int, embedding_size: int, hidden_size: int, num_layers: int
@@ -45,7 +49,8 @@ class GRUWMDetector(nn.Module):
         logits = self.linear(feature)
         return logits
 
-
+# uses Transformer encoder (like BERT) instead of GRU 
+# output scalar logit per sequence 
 class TransformerWMDetector(nn.Module):
     def __init__(
         self,

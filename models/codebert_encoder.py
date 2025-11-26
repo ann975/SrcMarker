@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 from transformers import RobertaModel
 
-
+# uses CodeBERT To encode code sequences into feature vectors 
 class CodeBertEncoder(nn.Module):
     def __init__(self, hidden_size: int = 512) -> None:
         super().__init__()

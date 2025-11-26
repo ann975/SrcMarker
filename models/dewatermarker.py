@@ -10,6 +10,15 @@ import math
 
 # helper Module that adds positional encoding to the token embedding
 # to introduce a notion of word order.
+
+
+# Seq2Seq models 
+# AWT and CALS used as baseline comparions 
+# AWT uses seq2seq transformer for encoding watermarks into texts 
+# modified AWTcode of AWT 
+# original text -> seq2seq encoder -> hidden state - > seq2seq decoder -> watermarked text and watermarked bitstring 
+# AWTcode trained on source code dataset, code tokens
+# AWT is trained on natrual language, english words 
 class PositionalEncoding(nn.Module):
     def __init__(self, emb_size: int, dropout: float, maxlen: int = 5000):
         super(PositionalEncoding, self).__init__()
@@ -70,16 +79,19 @@ class Seq2SeqTransformer(nn.Module):
 
     def forward(
         self,
-        src: Tensor,
-        tgt: Tensor,
+        src: Tensor, # source code (original)
+        tgt: Tensor, # target (watermarked)
         src_mask: Tensor,
         tgt_mask: Tensor,
         src_padding_mask: Tensor,
         tgt_padding_mask: Tensor,
         memory_key_padding_mask: Tensor,
     ):
+        # embed and add positional encoding 
         src_emb = self.positional_encoding(self.tok_emb(src))
         tgt_emb = self.positional_encoding(self.tok_emb(tgt))
+
+        # run through transformer 
         outs = self.transformer(
             src_emb,
             tgt_emb,
@@ -90,19 +102,23 @@ class Seq2SeqTransformer(nn.Module):
             tgt_padding_mask,
             memory_key_padding_mask,
         )
+        # generate output tokens 
         return self.generator(outs)
 
+    # encode source code into contxt 
     def encode(self, src: Tensor, src_mask: Tensor):
         return self.transformer.encoder(
             self.positional_encoding(self.tok_emb(src)), src_mask
         )
 
+    # decode using context and watermark info
     def decode(self, tgt: Tensor, memory: Tensor, tgt_mask: Tensor):
         return self.transformer.decoder(
             self.positional_encoding(self.tok_emb(tgt)), memory, tgt_mask
         )
 
-
+# create masking
+# prevents decoder from cheating by looking ahead 
 def generate_square_subsequent_mask(sz: int, device: torch.device):
     mask = (torch.triu(torch.ones((sz, sz), device=device)) == 1).transpose(0, 1)
     mask = (
@@ -125,6 +141,7 @@ def create_mask(src: Tensor, tgt: Tensor, pad_idx: int, device: torch.device):
     return src_mask, tgt_mask, src_padding_mask, tgt_padding_mask
 
 
+# alternative implemntation
 class BahdanauAttention(nn.Module):
     def __init__(self, hidden_size):
         super().__init__()

@@ -1,6 +1,12 @@
 import torch
 import torch.nn as nn
 
+# MLPs - fully connected networks 
+# used in watermark encoder 
+# watermark decoder, which is fully-connected network that decodes watermark using etrans
+# used in transformation selector - contains 2 independent MLPs fvar and ftrans 
+# used infeature approximation 
+
 
 class MLPForMNIST(nn.Module):
     HIDDEN_SIZE = 512
@@ -28,7 +34,14 @@ class MLPForMNIST(nn.Module):
         x = self.output(x)
         return x, h
 
-
+# 3 layers with dropout at each stage 
+# can learn complex functions
+# higher risk of overfitting
+# fvar and ftrans (transformation selector)
+# use when input/ouput relationships highly nonlinear 
+# use when not enough data to support deepr networks 
+# hidden_dim stays constant 
+# dropout after each layer (prevents overfitting)
 class MLP3(nn.Module):
     def __init__(
         self,
@@ -55,7 +68,9 @@ class MLP3(nn.Module):
 
         return x
 
-
+# 2 layers with optional batch normalization
+# dropout for regularization
+# bn flag allows flexibility for batch sizes 
 class MLP2(nn.Module):
     def __init__(
         self,
@@ -84,7 +99,9 @@ class MLP2(nn.Module):
         x = self.output(x)
         return x
 
-
+# single linear layer + ReLU
+# no dropout, no batch norm
+# fastest, least expressive 
 class MLP1(nn.Module):
     def __init__(self, input_dim: int = 512, output_dim: int = 512) -> None:
         super().__init__()
