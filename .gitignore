@@ -30,3 +30,4 @@ wandb/
 
 # csn datasets
 datasets/csn_*/*.jsonl
+srcmarker_env/
