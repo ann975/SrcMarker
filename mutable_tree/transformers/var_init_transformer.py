@@ -1,6 +1,9 @@
+# controls how variable declaration and initializations structured in code 
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import SplitVarInitAndDeclVisitor, MergeVarInitAndDeclVisitor
+#Split - separates declarations from assignments
+#Merges
 
 
 class VarInitTransformer(CodeTransformer):

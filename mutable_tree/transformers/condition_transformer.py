@@ -1,3 +1,7 @@
+# converts conditional expressions or statements into if statements 
+# switch statements -> if/elif/else
+# ternary -> full if statements 
+
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import SwitchToIfVisitor, TernaryToIfVisitor

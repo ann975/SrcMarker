@@ -2,9 +2,12 @@ from ..nodes import Node
 from .code_transformer import CodeTransformer
 from typing import List, Dict, Sequence
 
-
+# manager that stores multiple CodeTransformer objects (like LoopTransformer, ConditionTransformer, etc )
 class TransformerPipeline:
     def __init__(self, transformers: List[CodeTransformer]) -> None:
+        # takes list of transformer instances and builds
+        # List of self.names (transformer names)
+        # Dictionary of self.transformers (maps name to transformer object )
         self.names = [transformer.name for transformer in transformers]
         self.transformers: Dict[str, CodeTransformer] = {
             transformer.name: transformer for transformer in transformers
@@ -16,6 +19,10 @@ class TransformerPipeline:
     def get_transformer(self, name: str) -> CodeTransformer:
         return self.transformers[name]
 
+    # iterate through all transformation keys 
+    # extract transformer name prefix 
+    # look up correct transformer
+    # apply to AST 
     def mutable_tree_transform(self, node: Node, keys: Sequence[str]) -> Node:
         for key in keys:
             name = key.split(".")[0]

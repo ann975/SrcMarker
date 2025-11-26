@@ -1,3 +1,5 @@
+# SplitVarWithSameType - merged declarations are split
+# Merge - consecutive declarations of same type merged 
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import (

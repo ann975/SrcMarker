@@ -1,3 +1,6 @@
+# infinite code transformations (ex: while True instead of while 1)
+# LoopLiteralOne - 1
+# LoopLiteralTrue - True 
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import LoopLiteralOneVisitor, LoopLiteralTrueVisitor
@@ -16,6 +19,7 @@ class InfiniteLoopTransformer(CodeTransformer):
 
     def mutable_tree_transform(self, node: Node, dst_style: str):
         return {
+            # swapped?
             self.TRANSFORM_INFLOOP_TRUE: LoopLiteralOneVisitor(),
             self.TRANSFORM_INFLOOP_ONE: LoopLiteralTrueVisitor(),
         }[dst_style].visit(node)

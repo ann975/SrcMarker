@@ -1,3 +1,7 @@
+# code registry of all code transformers
+# collects all individual CodeTransformer subclasses 
+# provides simple function to instantiate all at once 
+
 from .code_transformer import CodeTransformer
 from .compound_if_transformer import CompoundIfTransformer
 from .condition_transformer import ConditionTransformer

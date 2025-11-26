@@ -1,3 +1,5 @@
+# rewrite for into while loops and vice versa 
+# trnsform code to look like for/while loops 
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import ForToWhileVisitor, WhileToForVisitor
@@ -16,6 +18,7 @@ class LoopTransformer(CodeTransformer):
 
     def mutable_tree_transform(self, node: Node, dst_style: str):
         return {
+            # transform TO the style
             self.TRANSFORM_LOOP_FOR: WhileToForVisitor(),
             self.TRANSFORM_LOOP_WHILE: ForToWhileVisitor(),
         }[dst_style].visit(node)

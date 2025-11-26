@@ -1,3 +1,6 @@
+# handles placement of variables 
+# HeadVisitor - moves variable declaration to start of block
+# BeforeUsed - moves to just before first usage
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import (

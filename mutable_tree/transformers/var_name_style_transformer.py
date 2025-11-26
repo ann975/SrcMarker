@@ -1,3 +1,9 @@
+# variable naming conventions 
+# Camel case
+# Pascal
+# snake
+# underscore
+
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import (

@@ -1,3 +1,9 @@
+# normalizes/rewrites updates to variables 
+# prefix updates (++x, --x)
+# postfix updates
+# binary operation updates
+# assignment updates 
+
 from mutable_tree.nodes import Node
 from .code_transformer import CodeTransformer
 from ..tree_manip.visitors import (
